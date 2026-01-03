@@ -96,9 +96,9 @@
     if (player) {
       zoomStartTime = Date.now();
 
-      // Calculate scale to fit window width with small margin
+      // Calculate scale to fit window width with margin
       const rect = player.getBoundingClientRect();
-      const scale = (window.innerWidth * 0.95) / rect.width;
+      const scale = (window.innerWidth * 0.8) / rect.width;
 
       // Calculate translation to center on viewport
       const playerCenterX = rect.left + rect.width / 2;
@@ -250,6 +250,7 @@
         }
         // Clear zoom if zoomed (but not immediately after zooming)
         if (zoomedElement && canCleanupZoom()) {
+          zoomedElement.style.cssText = '';
           zoomedElement.classList.remove('yth-zoomed');
           document.querySelectorAll('.yth-zoom-parent').forEach(el => {
             el.classList.remove('yth-zoom-parent');
