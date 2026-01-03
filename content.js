@@ -96,8 +96,11 @@
     if (player) {
       zoomStartTime = Date.now();
 
-      // Calculate translation to center on viewport
+      // Calculate scale to fit window width with small margin
       const rect = player.getBoundingClientRect();
+      const scale = (window.innerWidth * 0.95) / rect.width;
+
+      // Calculate translation to center on viewport
       const playerCenterX = rect.left + rect.width / 2;
       const playerCenterY = rect.top + rect.height / 2;
       const viewportCenterX = window.innerWidth / 2;
@@ -107,7 +110,7 @@
 
       // Apply transform with translate (to center) and scale, plus dark background via box-shadow
       player.style.cssText = `
-        transform: translate(${translateX}px, ${translateY}px) scale(2.5);
+        transform: translate(${translateX}px, ${translateY}px) scale(${scale});
         box-shadow: 0 0 0 200vmax rgba(0, 0, 0, 0.85);
       `;
       player.classList.add('yth-zoomed');
