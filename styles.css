@@ -1,0 +1,122 @@
+/* YouTube Hover Preview Enhancer Styles */
+
+/* Overlay wrapper - contains progress bar and time display */
+.yth-overlay-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.yth-overlay-wrapper.yth-visible {
+  opacity: 1;
+}
+
+/* Progress bar container */
+.yth-progress-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  pointer-events: auto;
+  transition: height 0.1s ease;
+}
+
+.yth-progress-container:hover {
+  height: 8px;
+}
+
+/* Progress bar fill */
+.yth-progress-bar {
+  height: 100%;
+  background: #ff0000;
+  width: 0%;
+  pointer-events: none;
+  position: relative;
+  z-index: 2;
+}
+
+/* Buffered progress */
+.yth-progress-buffered {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.4);
+  width: 0%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Time display overlay */
+.yth-time-display {
+  position: absolute;
+  bottom: 12px;
+  left: 8px;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-family: 'YouTube Sans', 'Roboto', Arial, sans-serif;
+  pointer-events: none;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Global speed toast - fixed position centered on screen */
+.yth-global-toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 24px;
+  font-weight: bold;
+  font-family: 'YouTube Sans', 'Roboto', Arial, sans-serif;
+  z-index: 99999;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.yth-global-toast.yth-visible {
+  opacity: 1;
+}
+
+.yth-global-toast.yth-fade-out {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Ensure our elements appear above YouTube's UI */
+.yth-overlay-wrapper,
+.yth-global-toast {
+  font-family: 'YouTube Sans', 'Roboto', Arial, sans-serif !important;
+}
+
+/* Zoomed hover preview - scales the player container */
+.yth-zoomed {
+  transform: scale(2.5) !important;
+  transform-origin: center center !important;
+  z-index: 999999 !important;
+  position: relative !important;
+  overflow: visible !important;
+}
+
+/* Parent containers need overflow visible to not clip the zoomed element */
+.yth-zoom-parent {
+  overflow: visible !important;
+  z-index: 999998 !important;
+}
