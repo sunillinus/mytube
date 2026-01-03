@@ -79,7 +79,8 @@
   // Zoom/unzoom hover preview
   function toggleZoom(video) {
     if (zoomedElement) {
-      // Unzoom - remove classes from element and parents
+      // Unzoom - remove classes and inline styles
+      zoomedElement.style.transform = '';
       zoomedElement.classList.remove('yth-zoomed');
       document.querySelectorAll('.yth-zoom-parent').forEach(el => {
         el.classList.remove('yth-zoom-parent');
@@ -94,6 +95,18 @@
 
     if (player) {
       zoomStartTime = Date.now();
+
+      // Calculate translation to center on viewport
+      const rect = player.getBoundingClientRect();
+      const playerCenterX = rect.left + rect.width / 2;
+      const playerCenterY = rect.top + rect.height / 2;
+      const viewportCenterX = window.innerWidth / 2;
+      const viewportCenterY = window.innerHeight / 2;
+      const translateX = viewportCenterX - playerCenterX;
+      const translateY = viewportCenterY - playerCenterY;
+
+      // Apply transform with translate (to center) and scale
+      player.style.transform = `translate(${translateX}px, ${translateY}px) scale(2.5)`;
       player.classList.add('yth-zoomed');
       zoomedElement = player;
 
@@ -405,6 +418,7 @@
       case 'Escape':
         // Close zoom
         if (zoomedElement) {
+          zoomedElement.style.transform = '';
           zoomedElement.classList.remove('yth-zoomed');
           document.querySelectorAll('.yth-zoom-parent').forEach(el => {
             el.classList.remove('yth-zoom-parent');

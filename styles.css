@@ -106,9 +106,8 @@
   font-family: 'YouTube Sans', 'Roboto', Arial, sans-serif !important;
 }
 
-/* Zoomed hover preview - scales the player container */
+/* Zoomed hover preview - transform applied via JS for centering */
 .yth-zoomed {
-  transform: scale(2.5) !important;
   transform-origin: center center !important;
   z-index: 999999 !important;
   position: relative !important;
