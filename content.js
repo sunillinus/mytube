@@ -80,7 +80,7 @@
   function toggleZoom(video) {
     if (zoomedElement) {
       // Unzoom - remove classes and inline styles
-      zoomedElement.style.transform = '';
+      zoomedElement.style.cssText = '';
       zoomedElement.classList.remove('yth-zoomed');
       document.querySelectorAll('.yth-zoom-parent').forEach(el => {
         el.classList.remove('yth-zoom-parent');
@@ -105,8 +105,11 @@
       const translateX = viewportCenterX - playerCenterX;
       const translateY = viewportCenterY - playerCenterY;
 
-      // Apply transform with translate (to center) and scale
-      player.style.transform = `translate(${translateX}px, ${translateY}px) scale(2.5)`;
+      // Apply transform with translate (to center) and scale, plus dark background via box-shadow
+      player.style.cssText = `
+        transform: translate(${translateX}px, ${translateY}px) scale(2.5);
+        box-shadow: 0 0 0 200vmax rgba(0, 0, 0, 0.85);
+      `;
       player.classList.add('yth-zoomed');
       zoomedElement = player;
 
@@ -418,7 +421,7 @@
       case 'Escape':
         // Close zoom
         if (zoomedElement) {
-          zoomedElement.style.transform = '';
+          zoomedElement.style.cssText = '';
           zoomedElement.classList.remove('yth-zoomed');
           document.querySelectorAll('.yth-zoom-parent').forEach(el => {
             el.classList.remove('yth-zoom-parent');
