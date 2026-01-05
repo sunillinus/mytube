@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "YouTube Hover Preview Enhancer",
+  "name": "MyTube",
   "version": "1.0.0",
   "description": "Add seeking, progress bar, and speed controls to YouTube hover previews and main player",
   "permissions": ["storage"],

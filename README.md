@@ -1,4 +1,4 @@
-# YouTube Hover Preview Enhancer
+# MyTube
 
 A Chrome extension that adds keyboard controls to YouTube's hover preview player and main player.
 
