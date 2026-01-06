@@ -15,6 +15,10 @@
   let globalToast = null;
   let globalToastTimeout = null;
 
+  // Zoom timestamp display
+  let zoomTimestamp = null;
+  let zoomTimestampInterval = null;
+
   // Constants
   const SPEED_STEP = 0.25;
   const SPEED_MIN = 0.25;
@@ -73,6 +77,48 @@
     document.body.appendChild(globalToast);
   }
 
+  // Show zoom timestamp display
+  function showZoomTimestamp(video, playerRect, scale) {
+    if (!zoomTimestamp) {
+      zoomTimestamp = document.createElement('div');
+      zoomTimestamp.className = 'yth-zoom-timestamp';
+      document.body.appendChild(zoomTimestamp);
+    }
+
+    // Position at bottom-right of zoomed player
+    const scaledWidth = playerRect.width * scale;
+    const scaledHeight = playerRect.height * scale;
+    const rightEdge = (window.innerWidth / 2) + (scaledWidth / 2);
+    const bottomEdge = (window.innerHeight / 2) + (scaledHeight / 2);
+
+    zoomTimestamp.style.right = `${window.innerWidth - rightEdge + 12}px`;
+    zoomTimestamp.style.bottom = `${window.innerHeight - bottomEdge + 12}px`;
+
+    function updateTimestamp() {
+      if (!video || !video.duration) return;
+      const remaining = video.duration - video.currentTime;
+      zoomTimestamp.textContent = formatTime(remaining);
+    }
+
+    updateTimestamp();
+    zoomTimestamp.classList.add('yth-visible');
+
+    // Update every 250ms while zoomed
+    if (zoomTimestampInterval) clearInterval(zoomTimestampInterval);
+    zoomTimestampInterval = setInterval(updateTimestamp, 250);
+  }
+
+  // Hide zoom timestamp display
+  function hideZoomTimestamp() {
+    if (zoomTimestampInterval) {
+      clearInterval(zoomTimestampInterval);
+      zoomTimestampInterval = null;
+    }
+    if (zoomTimestamp) {
+      zoomTimestamp.classList.remove('yth-visible');
+    }
+  }
+
   // Zoom state
   let zoomStartTime = 0;
 
@@ -85,6 +131,7 @@
       document.querySelectorAll('.yth-zoom-parent').forEach(el => {
         el.classList.remove('yth-zoom-parent');
       });
+      hideZoomTimestamp();
       zoomedElement = null;
       return;
     }
@@ -122,6 +169,9 @@
         parent.classList.add('yth-zoom-parent');
         parent = parent.parentElement;
       }
+
+      // Show timestamp display
+      showZoomTimestamp(video, rect, scale);
     }
   }
 
@@ -255,6 +305,7 @@
           document.querySelectorAll('.yth-zoom-parent').forEach(el => {
             el.classList.remove('yth-zoom-parent');
           });
+          hideZoomTimestamp();
           zoomedElement = null;
         }
         updateOverlayVisibility(overlay, false);
@@ -430,6 +481,7 @@
           document.querySelectorAll('.yth-zoom-parent').forEach(el => {
             el.classList.remove('yth-zoom-parent');
           });
+          hideZoomTimestamp();
           zoomedElement = null;
           handled = true;
         }
